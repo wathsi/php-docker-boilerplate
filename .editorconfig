@@ -1,0 +1,21 @@
+# top-most EditorConfig file
+root = true
+
+# Unix-style newlines with a newline ending every file
+[*]
+end_of_line = lf
+insert_final_newline = true
+
+# Matches multiple files with brace expansion notation
+# Set default charset
+[*.{html,php}]
+charset = utf-8
+
+# Indentation for files
+[{*.php,Dockerfile}]
+indent_style = space
+indent_size = 4
+
+[*.{yml,html}]
+indent_style = space
+indent_size = 2
