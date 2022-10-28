@@ -19,11 +19,11 @@ RUN apt install -y tzdata && \
 
 USER waan
 
-RUN sudo apt install -y software-properties-common && \ 
-    sudo LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
-    sudo apt update
+RUN echo ${PASSWD} | sudo -S sudo apt install -y software-properties-common && \ 
+    echo ${PASSWD} | sudo -S sudo LC_ALL=C.UTF-8 add-apt-repository -y ppa:ondrej/php && \
+    echo ${PASSWD} | sudo -S sudo apt update
 
-RUN sudo apt install -y \
+RUN echo ${PASSWD} | sudo -S sudo apt install -y \
     php8.1 \
     php8.1-xml \
     php8.1-curl \
@@ -33,14 +33,14 @@ RUN sudo apt install -y \
     apache2 \
     curl
 
-RUN sudo a2enmod rewrite
-RUN sudo a2enmod php8.1
+RUN echo ${PASSWD} | sudo -S sudo a2enmod rewrite
+RUN echo ${PASSWD} | sudo -S sudo a2enmod php8.1
 
 ADD runtime/apache/apache-config.conf /etc/apache2/sites-available/000-default.conf
 
-RUN sudo sh -c "echo 'ServerName localhost' >> /etc/apache2/apache2.conf" && \
-    sudo sh -c "echo 'ServerSignature Off' >> /etc/apache2/apache2.conf" && \
-    sudo sh -c "echo 'ServerTokens Prod' >> /etc/apache2/apache2.conf"
+RUN echo ${PASSWD} | sudo -S sudo sh -c "echo 'ServerName localhost' >> /etc/apache2/apache2.conf" && \
+    echo ${PASSWD} | sudo -S sudo sh -c "echo 'ServerSignature Off' >> /etc/apache2/apache2.conf" && \
+    echo ${PASSWD} | sudo -S sudo sh -c "echo 'ServerTokens Prod' >> /etc/apache2/apache2.conf"
 
 # Use of compose volumes is recommeded for development environment.
 # ADD source folder to container is recommeded for production.
@@ -52,23 +52,23 @@ RUN sudo sh -c "echo 'ServerName localhost' >> /etc/apache2/apache2.conf" && \
 #
 # ADD services/webapp /var/www
 
-RUN sudo chown www-data:www-data -R /var/www/
+RUN echo ${PASSWD} | sudo -S sudo chown www-data:www-data -R /var/www/
 
 # Set working directory
 WORKDIR /var/www
 
 # Delete /var/www/html.
-RUN sudo rm -rf html/
+RUN echo ${PASSWD} | sudo -S sudo rm -rf html/
 
 # Composer download and setup, but can not install since all the files are added after 
 # the container is created using docker compose volumes.
 # Ref - start-scripts.sh for more details.
-RUN sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-    sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
-    sudo php -r "unlink('composer-setup.php');"
+RUN echo ${PASSWD} | sudo -S sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
+    echo ${PASSWD} | sudo -S sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer && \
+    echo ${PASSWD} | sudo -S sudo php -r "unlink('composer-setup.php');"
 
 ADD runtime/start-script.sh /
-RUN sudo chmod +x /start-script.sh
+RUN echo ${PASSWD} | sudo -S sudo chmod +x /start-script.sh
 
 EXPOSE 80
 
