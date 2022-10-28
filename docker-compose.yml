@@ -1,9 +1,11 @@
 services:
-    webapp:
+  webapp:
     container_name: "webapp"
+    
     build:
       context: .
       dockerfile: dockerfile
+
       arg:
         -  PASSWD: ${PASSWD}
 
