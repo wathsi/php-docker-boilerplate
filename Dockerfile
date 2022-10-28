@@ -51,7 +51,9 @@ RUN echo ${PASSWD} | sudo -S sudo sh -c "echo 'ServerName localhost' >> /etc/apa
 # in docker-compose.yml
 #
 # ADD services/webapp /var/www
+ADD services/webapp /var/www
 
+# Set www-data permission for web server.
 RUN echo ${PASSWD} | sudo -S sudo chown www-data:www-data -R /var/www/
 
 # Set working directory
