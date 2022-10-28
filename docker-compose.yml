@@ -2,10 +2,15 @@ services:
     webapp:
     container_name: "webapp"
     build:
-        context: .
-        dockerfile: dockerfile
+      context: .
+      dockerfile: dockerfile
+      arg:
+        -  PASSWD: ${PASSWD}
 
-        ports:
-            - 80:80
+      ports:
+        - 80:80
     
-        restart: always
+      restart: always
+
+    env_file:
+          - .env
